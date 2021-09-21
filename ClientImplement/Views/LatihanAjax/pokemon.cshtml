@@ -1,0 +1,56 @@
+@{
+    ViewData["Title"] = "Latihan AJAX Pokemon";
+}
+<div class="m-5">
+    <h1>PokemonAPI</h1>
+    <table class="table table-striped border">
+        <thead>
+            <tr>
+                <th>No</th>
+                <th>Name</th>
+                <th style="width: 20%;">Action</th>
+            </tr>
+        </thead>
+        <tbody id="list_pokemon">
+        </tbody>
+    </table>
+
+    <!-- Modal -->
+    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="modelpoke"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="model-poke">Modal title</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="card border-0">
+                        <div id="img">
+                            <img class="card-img-top border"
+                                src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/dream-world/7.svg"
+                                alt="Card image cap">
+                        </div>
+                        <div class="card-body">
+                            <div id="badge-poke" class="d-inline">
+                                <span class="badge badge-pill badge-secondary p-1">Secondary</span>
+                            </div>
+                            <ul>
+                                <li>Name : <span id="name-poke">Test</span></li>
+                                <li>Species : <span id="species-poke">Test</span></li>
+                                @* <li>Type : <span id="type">type</span></li> *@
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="~/js/pokemonAJAX.js" asp-append-version="true"></script>

@@ -1,0 +1,17 @@
+@{
+
+
+    Layout = "_Layout";
+    @* Layout = "_LayoutSBAdmin"; *@
+    @* string CurrentName = Convert.ToString(HttpContext.Current.Request.RequestContext.RouteData.Values["Controller"]);
+        dynamic Layout;
+        switch (CurrentName)
+        {
+        case "Templating":
+        Layout = "_LayoutSBAdmin";
+        break;
+        default:
+        Layout = "_Layout";
+        break;
+        } *@
+}

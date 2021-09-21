@@ -1,0 +1,89 @@
+@{
+    ViewData["Title"] = "Latihan Penggunaan AJAX";
+
+}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<div class="m-5" id="refrest">
+    <h1>Data University</h1>
+ 
+    <!-- Button trigger modal -->
+    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#add">
+        Create Data
+    </button>
+
+    <!-- Modal -->
+    <div class="modal fade" id="add" tabindex="-1" role="dialog" aria-labelledby="addLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="addLabel">New University</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form id="form-univ">
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label for="inputUniversity">University</label>
+                            <input type="text" class="form-control" id="inputUniversity">
+                            <div class="invalid-feedback">
+                                <span id="messageUniv"></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary">Add</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div id="test" class="table-responsive mt-3">
+        <table id="myTable" class="table table-striped border table-bordered" width="100%">
+            <thead>
+                <tr>
+                    <th>No.</th>
+                    <th>Name</th>
+                    <th width="15%">Action</th>
+                </tr>
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Modal -->
+    <div class="modal fade" id="modalEdit" tabindex="-1" role="dialog" aria-labelledby="editLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="editLabel">Edit University</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form id="form-edit" method="post" action="/">
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <input id="idUniv" type="hidden" value="">
+                            <label for="nameUniv">University</label>
+                            <input id="nameUniv" type="text" class="form-control" value="">
+                            <div class="invalid-feedback">
+                                <span id="messageUniv2"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary">Update</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="~/js/universityAJAX.js" asp-append-version="true"></script>

@@ -1,0 +1,102 @@
+﻿/* div {
+  width: 150px;
+  height: 150px;
+}
+
+.satu {
+  background-color: salmon;
+}
+
+.dua {
+  background-color: aqua;
+}
+
+.tiga {
+  background-color: seagreen;
+} */
+/*
+body {
+  margin: -20px;
+}
+
+/* selector */
+div,
+section,
+a,
+p,
+ul,
+li {
+  font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+  border: 2px solid #80808088;
+  border-radius: 8px;
+  padding: 20px;
+  margin: 20px;
+  display: block;
+  text-align: center;
+}
+
+a {
+  color: black;
+}
+
+/* pseudo class */
+a:hover {
+  /* font-size: 14px; */
+  text-decoration: none;
+  background-color: #1b1b1b18;
+  color: #363636;
+}
+
+.turn,
+.reset {
+  position: fixed;
+  top: 0;
+  right: 0;
+  border: 0px solid;
+}
+
+:target {
+  background-color: #000000be;
+  color: white;
+}
+
+:target a {
+  color: white;
+}
+
+:target .turn::before {
+  content: "☼ Light";
+  display: none;
+}
+
+:target .reset::before {
+  content: "☾ Dark";
+  display: block;
+}
+
+pseudo-elemet */ .turn::before {
+  content: "☼ Light";
+}
+
+.reset::before {
+  content: "☾ Dark";
+  display: none;
+}
+
+
+li::before {
+  content: "♦ ";
+}
+
+blockquote {
+  font-family: Georgia, 'Times New Roman', Times, serif;
+  font-style: italic;
+}
+
+blockquote::before,
+blockquote::after {
+  content: open-quote;
+  font-size: 30px;
+  color: darkgray;
+  line-height: 0;
+}

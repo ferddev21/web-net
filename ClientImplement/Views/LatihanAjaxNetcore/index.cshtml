@@ -1,0 +1,208 @@
+@{
+    ViewData["Title"] = "Latihan Penggunaan AJAX";
+
+}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<div class="m-5">
+    <h1>Data Register</h1>
+    <p id="target"></p>
+    <!-- Button trigger modal -->
+    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#register">
+        Register
+    </button>
+
+    <!-- Modal -->
+    <div class="modal fade" id="register" tabindex="-1" role="dialog" aria-labelledby="registerLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="registerLabel">New Register</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form id="form-register" method="post" action="/">
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label for="inputNIK">NIK</label>
+                            <input type="text" class="form-control" id="inputNIK">
+                            <div class="invalid-feedback">
+                                <span id="msgNIK"></span>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group col-md-6">
+                                <label for="inputFirstName">First name</label>
+                                <input type="text" class="form-control" id="inputFirstName">
+                                <div class="invalid-feedback">
+                                    <span id="msgFN"></span>
+                                </div>
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label for="inputLastName">Last name</label>
+                                <input type="text" class="form-control" id="inputLastName">
+                                <div class="invalid-feedback">
+                                    <span id="msgLN"></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="inputPhone">Phone</label>
+                            <input type="text" class="form-control" id="inputPhone">
+                            <div class="invalid-feedback">
+                                <span id="msgPhone"></span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="inputBirthDate">BirthDate</label>
+                            <input type="date" class="form-control" id="inputBirthDate">
+                            <div class="invalid-feedback">
+                                <span id="msgBirthDate"></span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="inputSalary">Salary</label>
+                            <input type="text" class="form-control" id="inputSalary">
+                            <div class="invalid-feedback">
+                                <span id="msgSalary"></span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="inputEmail">Email</label>
+                            <input type="email" class="form-control" id="inputEmail">
+                            <div class="invalid-feedback">
+                                <span id="msgEmail"></span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="inputPassword">Password</label>
+                            <input type="text" class="form-control" id="inputPassword">
+                            <div class="invalid-feedback">
+                                <span id="msgPassword"></span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="inputGender">Gender</label>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="inputGender" value="0" id="gender1">
+                                <label class="form-check-label" for="gender1">
+                                    Perempuan
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="inputGender" value="1" id="gender2">
+                                <label class="form-check-label" for="gender2">
+                                    Laki Laki
+                                </label>
+                            </div>
+                            <div class="invalid-feedback">
+                                <span id="msgGender"></span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="inputDegree">Degree</label>
+                            <input type="text" class="form-control" id="inputDegree">
+                            <div class="invalid-feedback">
+                                <span id="msgDegree"></span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="inputGPA">Gpa</label>
+                            <input type="text" class="form-control" id="inputGPA">
+                            <div class="invalid-feedback">
+                                <span id="msgGPA"></span>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="inputUniversity">University</label>
+                            <select id="inputUniversity" class="form-control">
+
+                                <option value="">University</option>
+                            </select>
+                            <div class="invalid-feedback">
+                                <span id="msgUniversity"></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary">Register</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="table-responsive mt-3">
+        <table id="myTable" class="table table-striped border" width="100%">
+            <thead>
+                <tr>
+                    <th>No.</th>
+                    <th>NIK</th>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Telp</th>
+                    <th width="15%">Action</th>
+                </tr>
+            </thead>
+            <tbody id="data-person">
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Modal -->
+    <div class="modal fade" id="detailPerson" tabindex="-1" role="dialog" aria-labelledby="modelpoke"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title font-weight-bold" id="modal-title">
+                        Modal title
+                    </h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <ul class="list-group font-weight-bold">
+                        <li class="list-group-item">NIK :
+                            <span id="getNIK" class="font-weight-light">-</span>
+                        </li>
+                        <li class="list-group-item">Firstname :
+                            <span id="getFirstName" class="font-weight-light">-</span>
+                        </li>
+                        <li class="list-group-item">Lastname :
+                            <span id="getLastName" class="font-weight-light">-</span>
+                        </li>
+                        <li class="list-group-item">Gender :
+                            <span id="getGender" class="font-weight-light">-</span>
+                        </li>
+                        <li class="list-group-item">Degree :
+                            <span id="getDegree" class="font-weight-light">-</span>
+                        </li>
+                        <li class="list-group-item">GPA :
+                            <span id="getGPA" class="font-weight-light">-</span>
+                        </li>
+                        <li class="list-group-item">University :
+                            <span id="getUniv" class="font-weight-light">-</span>
+                        </li>
+                        <li class="list-group-item">Salary :
+                            <span id="getSalary" class="font-weight-light">-</span>
+                        </li>
+                        <li class="list-group-item">Role :
+                            <div id="getRole" class="d-inline">-</div>
+                        </li>
+                    </ul>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="~/js/registerAJAX.js" asp-append-version="true"></script>
