@@ -96,11 +96,17 @@ namespace netcore.Base.Controllers
                     signingCredentials: signIn
                 );
 
-                return StatusCode((int)HttpStatusCode.OK, new
+                // return StatusCode((int)HttpStatusCode.OK, new
+                // {
+                //     status = (int)HttpStatusCode.OK,
+                //     message = "Success Login",
+                //     token = new JwtSecurityTokenHandler().WriteToken(token)
+                // });
+
+                return Ok(new JWTokenVM
                 {
-                    status = (int)HttpStatusCode.OK,
-                    message = "Success Login",
-                    token = new JwtSecurityTokenHandler().WriteToken(token)
+                    Massage = "Success Login",
+                    Token = new JwtSecurityTokenHandler().WriteToken(token),
                 });
             }
             catch (System.Exception e)
