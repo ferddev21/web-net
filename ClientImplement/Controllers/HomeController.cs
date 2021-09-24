@@ -30,6 +30,20 @@ namespace ClientImplement.Controllers
             return View();
         }
 
+
+        [HttpGet("401")]
+        public IActionResult Unauthorized()
+        {
+            return View("401");
+        }
+
+        [HttpGet("404")]
+        public IActionResult NotFound()
+        {
+            return View("404");
+        }
+
+
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {

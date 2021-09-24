@@ -2,10 +2,12 @@ using System;
 using System.Collections.Generic;
 using System.Net;
 using System.Net.Http;
+using System.Text;
 using System.Threading.Tasks;
 using ClientImplement.Base.Urls;
 using ClientImplement.Repository.Interface;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 namespace ClientImplement.Repository
 {
@@ -50,18 +52,24 @@ namespace ClientImplement.Repository
             return entity;
         }
 
-        public HttpStatusCode Post(Entity entity)
+        public String Post(Entity entity)
         {
-            throw new System.NotImplementedException();
+            StringContent content = new StringContent(JsonConvert.SerializeObject(entity), Encoding.UTF8, "application/json");
+
+            return httpClient.PostAsync(request, content).Result.Content.ReadAsStringAsync().Result;
+
         }
 
-        public HttpStatusCode Put(Key key, Entity entity)
+        public String Put(Key key, Entity entity)
         {
-            throw new System.NotImplementedException();
+            StringContent content = new StringContent(JsonConvert.SerializeObject(entity), Encoding.UTF8, "application/json");
+
+            return httpClient.PutAsync(request, content).Result.Content.ReadAsStringAsync().Result;
         }
         public HttpStatusCode Delete(Key key)
         {
-            throw new System.NotImplementedException();
+            var result = httpClient.DeleteAsync(request + key).Result;
+            return result.StatusCode;
         }
 
     }

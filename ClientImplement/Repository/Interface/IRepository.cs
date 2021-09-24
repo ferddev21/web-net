@@ -1,5 +1,7 @@
+using System;
 using System.Collections.Generic;
 using System.Net;
+using System.Net.Http;
 using System.Threading.Tasks;
 
 namespace ClientImplement.Repository.Interface
@@ -8,8 +10,8 @@ namespace ClientImplement.Repository.Interface
     {
         Task<List<Entity>> GetAll();
         Task<Entity> Get(Key key);
-        HttpStatusCode Post(Entity entity);
-        HttpStatusCode Put(Key key, Entity entity);
+        string Post(Entity entity);
+        string Put(Key key, Entity entity);
         HttpStatusCode Delete(Key key);
     }
 }

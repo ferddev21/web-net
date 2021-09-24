@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using netcore.Base.Controllers;
 using netcore.Models;
+using netcore.ViewModel;
 
 namespace ClientImplement.Base.Controllers
 {
@@ -33,6 +34,13 @@ namespace ClientImplement.Base.Controllers
         public async Task<JsonResult> GetRegisterByNIK(string nik)
         {
             var result = await repository.GetRegister(nik);
+            return Json(result);
+        }
+
+        [HttpPost("register")]
+        public JsonResult InsertRegister(RegisterVM registerVM)
+        {
+            var result = repository.InsertRegister(registerVM);
             return Json(result);
         }
 

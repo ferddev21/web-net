@@ -120,9 +120,9 @@ detailModalPerson = (url) => {
 $.ajax({
     url: "http://localhost:5002/api/university",
 }).done((result) => {
-    console.log(result.result);
+    console.log(result);
     text = '<option value=""></option>';
-    $.each(result.result, function (key, val) {
+    $.each(result, function (key, val) {
 
         text += `<option value= "${val.universityId}"> ${val.name}</option> `;
 
@@ -193,29 +193,48 @@ $("#form-register").submit(function (event) {
     //console.log(JSON.stringify(data_register));
 
     $.ajax({
-        url: 'http://localhost:5002/api/person/register',
+        url: '/person/register',
         type: 'post',
         dataType: 'json',
-        contentType: 'application/json',
-        data: JSON.stringify(obj),
+        contentType: 'application/x-www-form-urlencoded',
+        data: obj,
         success: function (data) {
-            console.log(data);
 
-            //idmodal di hide
-            $('#register').hide();
-            $('.modal-backdrop').remove();
 
-            //sweet alert message success
-            Swal.fire({
-                position: 'center',
-                icon: 'success',
-                title: `${data.message}`,
-                showConfirmButton: false,
-                timer: 1500
-            })
+            var obj = JSON.parse(data);
 
-            //reload only datatable
-            $('#myTable').DataTable().ajax.reload();
+            console.log(obj);
+
+            if (obj.errors != undefined) {
+                checkValidation(obj.errors.NIK, "inputNIK", "msgNIK");
+                checkValidation(obj.errors.FirstName, "inputFirstName", "msgFN");
+                checkValidation(obj.errors.LastName, "inputLastName", "msgLN");
+                checkValidation(obj.errors.Phone, "inputPhone", "msgPhone");
+                checkValidation(obj.errors.Email, "inputEmail", "msgEmail");
+                checkValidation(obj.errors.Password, "inputPassword", "msgPassword");
+                checkValidation(obj.errors.Degree, "inputDegree", "msgDegree");
+                checkValidation(obj.errors.GPA, "inputGPA", "msgGPA");
+
+            } else {
+                //idmodal di hide
+                $('#register').hide();
+                $('.modal-backdrop').remove();
+
+
+                //sweet alert message success
+                Swal.fire({
+                    position: 'center',
+                    icon: 'success',
+                    title: `${obj.message}`,
+                    showConfirmButton: false,
+                    timer: 1500
+                })
+
+                //reload only datatable
+                $('#myTable').DataTable().ajax.reload();
+
+            }
+
         },
         error: function (xhr, status, error) {
             var err = eval(xhr.responseJSON);
@@ -256,11 +275,11 @@ deleteModalPerson = (url) => {
     $.ajax({
         url: url,
     }).done((result) => {
-        console.log(result.result.nik);
+        console.log(result.nik);
 
         Swal.fire({
             title: 'Hapus Data',
-            text: `Anda akan menghapus data ${result.result.nik} !`,
+            text: `Anda akan menghapus data ${result.nik} !`,
             icon: 'warning',
             showCancelButton: true,
             confirmButtonColor: '#3085d6',
@@ -270,8 +289,9 @@ deleteModalPerson = (url) => {
             if (isDelete.isConfirmed) {
 
                 $.ajax({
-                    url: `http://localhost:5002/api/person/${result.result.nik}`,
+                    url: `/person/${result.nik}`,
                     method: 'DELETE',
+                    contentType: 'application/x-www-form-urlencoded',
                     success: function (data) {
 
                         Swal.fire(

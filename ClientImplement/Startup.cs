@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 using ClientImplement.Base.Controllers;
@@ -45,20 +46,18 @@ namespace ClientImplement
             services.AddScoped<Address>();
 
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options =>
-              {
-                  options.RequireHttpsMetadata = false;
-                  options.SaveToken = true;
-                  options.TokenValidationParameters = new TokenValidationParameters()
-                  {
-                      ValidateIssuer = true,
-                      ValidateAudience = true,
-                      ValidAudience = Configuration["Jwt:Audience"],
-                      ValidIssuer = Configuration["Jwt:Issuer"],
-                      IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["Jwt:Key"]))
-                  };
-              }
-              );
-
+            {
+                options.RequireHttpsMetadata = false;
+                options.SaveToken = true;
+                options.TokenValidationParameters = new TokenValidationParameters()
+                {
+                    ValidateIssuer = true,
+                    ValidateAudience = true,
+                    ValidAudience = Configuration["Jwt:Audience"],
+                    ValidIssuer = Configuration["Jwt:Issuer"],
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["Jwt:Key"]))
+                };
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -77,6 +76,23 @@ namespace ClientImplement
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseRouting();
+
+            //custom error page
+            app.UseStatusCodePages(async context =>
+            {
+                var request = context.HttpContext.Request;
+                var response = context.HttpContext.Response;
+
+                if (response.StatusCode.Equals((int)HttpStatusCode.Unauthorized))
+                {
+                    response.Redirect("401");
+                }
+
+                if (response.StatusCode.Equals((int)HttpStatusCode.NotFound))
+                {
+                    response.Redirect("404");
+                }
+            });
 
             app.UseSession();
 

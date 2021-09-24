@@ -49,7 +49,7 @@ $(document).ready(function () {
                         <button type="button" class="btn btn-success btn-sm" data-toggle="modal" data-target="#modalEdit" onclick="editModalUniversity('${url_detail}')">
                             Edit
                         </button>
-                        <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#modalEdit2" onclick="deleteModalUniversity('${url_detail}')">
+                        <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#modalEdit2" onclick="deleteModalUniversity('${row["universityId"]}')">
                             Delete
                         </button>
                     </div>
@@ -73,44 +73,55 @@ $("#form-univ").submit(function (event) {
     /* stop form from submitting normally */
     event.preventDefault();
 
-    var data_input = {
-        "Name": $("#inputUniversity").val(),
+    // var data_input = {
+    //     "Name": $("#inputUniversity").val(),
+    // }
 
-    }
+    var data_input = new Object();
+    data_input.Name = $("#inputUniversity").val();
 
-    console.log(JSON.stringify(data_input));
+    console.log(data_input);
 
     $.ajax({
-        url: 'http://localhost:5002/api/university',
+        url: '/university',
         method: 'POST',
         dataType: 'json',
-        contentType: 'application/json',
-        data: JSON.stringify(data_input),
+        contentType: 'application/x-www-form-urlencoded',
+        data: data_input,
         success: function (data) {
-            //idmodal di hide
-            $('#add').hide();
-            $('.modal-backdrop').remove();
 
 
-            //sweet alert message success
-            Swal.fire({
-                position: 'center',
-                icon: 'success',
-                title: `${data.message}`,
-                showConfirmButton: false,
-                timer: 1500
-            })
+            var obj = JSON.parse(data);
 
-            //reload only datatable
-            $('#myTable').DataTable().ajax.reload();
+            console.log(obj);
+
+            if (obj.errors != undefined) {
+
+                document.getElementById("inputUniversity").className = "form-control is-invalid";
+                $("#messageUniv").html(` ${obj.errors.Name}`);
+            } else {
+                //idmodal di hide
+                $('#add').hide();
+                $('.modal-backdrop').remove();
 
 
+                //sweet alert message success
+                Swal.fire({
+                    position: 'center',
+                    icon: 'success',
+                    title: `${obj.message}`,
+                    showConfirmButton: false,
+                    timer: 1500
+                })
+
+                //reload only datatable
+                $('#myTable').DataTable().ajax.reload();
+
+            }
         },
         error: function (xhr, status, error) {
             var err = eval(xhr.responseJSON);
-            console.log(err.message);
-            document.getElementById("inputUniversity").className = "form-control is-invalid";
-            $("#messageUniv").html(` ${err.errors.Name[0]}`);
+
         }
     })
 });
@@ -147,27 +158,40 @@ $("#form-edit").submit(function (event) {
     console.log(JSON.stringify(data_input));
 
     $.ajax({
-        url: `http://localhost:5002/api/university`,
+        url: `/university`,
         method: 'PUT',
         dataType: 'json',
-        contentType: 'application/json',
-        data: JSON.stringify(data_input),
+        contentType: 'application/x-www-form-urlencoded',
+        data: data_input,
         success: function (data) {
-            //idmodal di hide
-            $('#modalEdit').hide();
-            $('.modal-backdrop').remove();
 
-            //sweet alert message success
-            Swal.fire({
-                position: 'center',
-                icon: 'success',
-                title: `${data.message}`,
-                showConfirmButton: false,
-                timer: 1500
-            })
+            var obj = JSON.parse(data);
 
-            //reload only datatable
-            $('#myTable').DataTable().ajax.reload();
+            console.log(obj);
+
+            if (obj.errors != undefined) {
+
+                document.getElementById("nameUniv").className = "form-control is-invalid";
+                $("#messageUniv2").html(` ${obj.errors.Name}`);
+            } else {
+                //idmodal di hide
+                $('#modalEdit').hide();
+                $('.modal-backdrop').remove();
+
+
+                //sweet alert message success
+                Swal.fire({
+                    position: 'center',
+                    icon: 'success',
+                    title: `Data berhasil update`,
+                    showConfirmButton: false,
+                    timer: 1500
+                })
+
+                //reload only datatable
+                $('#myTable').DataTable().ajax.reload();
+
+            }
         },
         error: function (xhr, status, error) {
             var err = eval(xhr.responseJSON);
@@ -178,41 +202,36 @@ $("#form-edit").submit(function (event) {
 });
 
 //delete university
-deleteModalUniversity = (url) => {
-    $.ajax({
-        url: url,
-    }).done((result) => {
-        console.log(result.result.universityId);
+deleteModalUniversity = (id) => {
 
-        Swal.fire({
-            title: 'Hapus Data',
-            text: `Anda akan menghapus data ${result.result.name} !`,
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonColor: '#3085d6',
-            cancelButtonColor: '#d33',
-            confirmButtonText: 'Yes, delete!'
-        }).then((isDelete) => {
-            if (isDelete.isConfirmed) {
+    console.log(id);
 
-                $.ajax({
-                    url: `http://localhost:5002/api/university/${result.result.universityId}`,
-                    method: 'DELETE',
-                    success: function (data) {
+    Swal.fire({
+        title: 'Hapus Data',
+        text: `Anda akan menghapus data !`,
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Yes, delete!'
+    }).then((isDelete) => {
+        if (isDelete.isConfirmed) {
 
-                        Swal.fire(
-                            'Deleted!',
-                            'Data berhasil dihapus.',
-                            'success'
-                        )
+            $.ajax({
+                url: `/university/${id}`,
+                method: 'DELETE',
+                contentType: 'application/x-www-form-urlencoded',
+                success: function (data) {
 
-                        $('#myTable').DataTable().ajax.reload();
-                    },
-                })
-            }
-        })
+                    Swal.fire(
+                        'Deleted!',
+                        'Data berhasil dihapus.',
+                        'success'
+                    )
 
-    }).fail((result) => {
-        console.log(result);
-    });
+                    $('#myTable').DataTable().ajax.reload();
+                },
+            })
+        }
+    })
 }

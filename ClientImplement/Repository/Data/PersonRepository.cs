@@ -10,6 +10,7 @@ using netcore.Models;
 using netcore.ViewModel;
 using Newtonsoft.Json;
 using System;
+using System.Text;
 
 namespace ClientImplement.Repository.Data
 {
@@ -40,6 +41,13 @@ namespace ClientImplement.Repository.Data
 
             }
             return registers;
+        }
+
+        public String InsertRegister(RegisterVM registerVM)
+        {
+            StringContent content = new StringContent(JsonConvert.SerializeObject(registerVM), Encoding.UTF8, "application/json");
+            var response = httpClient.PostAsync(request + "register", content).Result.Content.ReadAsStringAsync().Result;
+            return response;
         }
 
         public async Task<RegisterVM> GetRegister(string nik)

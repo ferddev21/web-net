@@ -1,10 +1,11 @@
 using System.Threading.Tasks;
 using ClientImplement.Repository.Interface;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json.Linq;
 
 public class BaseController<Entity, Repository, Key> : Controller
-        where Entity : class
-        where Repository : IRepository<Entity, Key>
+where Entity : class
+where Repository : IRepository<Entity, Key>
 {
     private readonly Repository repository;
 
@@ -31,6 +32,7 @@ public class BaseController<Entity, Repository, Key> : Controller
     public JsonResult Post(Entity entity)
     {
         var result = repository.Post(entity);
+
         return Json(result);
     }
 
@@ -41,10 +43,11 @@ public class BaseController<Entity, Repository, Key> : Controller
         return Json(result);
     }
 
-    [HttpDelete]
+    [HttpDelete("{key}")]
     public JsonResult Delete(Key key)
     {
         var result = repository.Delete(key);
+
         return Json(result);
     }
 }
